@@ -1,4 +1,5 @@
 import React from 'react';
+import { StatusBar } from 'react-native';
 // Ícones
 import speedSvg from '../../assets/speed.svg';
 import accelerationSvg from '../../assets/acceleration.svg';
@@ -29,9 +30,14 @@ import { ImageSlider } from '../../components/ImageSlider';
 import { Accessory } from '../../components/Accessory';
 import { Button } from '../../components/Button';
 
-export function CarDetail() {
+export function CarDetails() {
   return (
     <Container>
+      <StatusBar
+        barStyle='dark-content'
+        backgroundColor='transparent'
+        translucent
+      />
       <Header>
         <BackButton onPress={() => null} />
       </Header>
@@ -74,7 +80,7 @@ export function CarDetail() {
       </Content>
 
       <Footer>
-        <Button title='Test' />
+        <Button title='Escolher período do aluguel' />
       </Footer>
     </Container>
   );
