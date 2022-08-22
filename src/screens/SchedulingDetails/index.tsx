@@ -91,7 +91,7 @@ export function SchedulingDetails() {
             <Feather
               name='calendar'
               size={RFValue(20)}
-              color={theme.colors.background_secondary}
+              color={theme.colors.shape}
             />
           </CalendarIcon>
 

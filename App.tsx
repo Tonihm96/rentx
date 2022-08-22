@@ -1,5 +1,6 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AppLoading from 'expo-app-loading';
 import {
   useFonts,
@@ -17,8 +18,8 @@ import theme from './src/styles/theme';
 import { Home } from './src/screens/Home';
 import { Schedules } from './src/screens/Schedules';
 import { CarDetails } from './src/screens/CarDetails';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SchedulingDetails } from './src/screens/SchedulingDetails';
+import { SchedulingComplete } from './src/screens/SchedulingComplete';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -37,7 +38,7 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider theme={theme}>
-        <SchedulingDetails />
+        <SchedulingComplete />
       </ThemeProvider>
     </GestureHandlerRootView>
   );
