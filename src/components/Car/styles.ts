@@ -56,9 +56,7 @@ export const Price = styled.Text`
   font-size: ${RFValue(15)}px;
 `;
 
-export const Type = styled.View`
-  flex: 1;
-`;
+export const Type = styled.View``;
 
 export const CarImage = styled.Image`
   width: 167px;

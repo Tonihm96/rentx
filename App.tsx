@@ -15,6 +15,8 @@ import {
 import theme from './src/styles/theme';
 
 import { Home } from './src/screens/Home';
+import { CarDetail } from './src/screens/CarDetail';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -31,8 +33,10 @@ export default function App() {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <Home />
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider theme={theme}>
+        <CarDetail />
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }
