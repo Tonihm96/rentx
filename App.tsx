@@ -1,4 +1,5 @@
 import React from 'react';
+import { LogBox } from 'react-native';
 import { ThemeProvider } from 'styled-components';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AppLoading from 'expo-app-loading';
@@ -15,11 +16,7 @@ import {
 
 import theme from './src/styles/theme';
 
-import { Home } from './src/screens/Home';
-import { Schedules } from './src/screens/Schedules';
-import { CarDetails } from './src/screens/CarDetails';
-import { SchedulingDetails } from './src/screens/SchedulingDetails';
-import { SchedulingComplete } from './src/screens/SchedulingComplete';
+import { Routes } from './src/routes';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -30,7 +27,8 @@ export default function App() {
     Archivo_600SemiBold
   });
 
-  // substituir por expo install expo-splash-screen
+  LogBox.ignoreLogs(['expo-app-loading is deprecated']);
+
   if (!fontsLoaded) {
     return <AppLoading />;
   }
@@ -38,7 +36,7 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider theme={theme}>
-        <SchedulingComplete />
+        <Routes />
       </ThemeProvider>
     </GestureHandlerRootView>
   );

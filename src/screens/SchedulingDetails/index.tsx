@@ -2,6 +2,7 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from 'styled-components';
 // Ícones
 import speedSvg from '../../assets/speed.svg';
@@ -10,6 +11,8 @@ import forceSvg from '../../assets/force.svg';
 import gasolineSvg from '../../assets/gasoline.svg';
 import transmissionSvg from '../../assets/exchange.svg';
 import peopleSvg from '../../assets/people.svg';
+
+import { StackProps } from '../../routes/Models';
 
 import {
   Container,
@@ -43,7 +46,12 @@ import { Accessory } from '../../components/Accessory';
 import { Button } from '../../components/Button';
 
 export function SchedulingDetails() {
+  const navigation = useNavigation<StackProps>();
   const theme = useTheme();
+
+  function handleConfirmRental() {
+    navigation.navigate('SchedulingComplete');
+  }
 
   return (
     <Container>
@@ -53,7 +61,7 @@ export function SchedulingDetails() {
         translucent
       />
       <Header>
-        <BackButton onPress={() => null} />
+        <BackButton onPress={() => navigation.goBack()} />
       </Header>
 
       <CarImages>
@@ -122,7 +130,11 @@ export function SchedulingDetails() {
       </Content>
 
       <Footer>
-        <Button title='Escolher período do aluguel' />
+        <Button
+          title='Alugar agora'
+          color={theme.colors.success}
+          onPress={handleConfirmRental}
+        />
       </Footer>
     </Container>
   );

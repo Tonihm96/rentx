@@ -5,7 +5,7 @@ import { Container, Title } from './styles';
 interface Props {
   title: string;
   color?: string;
-  onPress?(): () => void;
+  onPress?(): void;
 }
 
 export function Button({ title, color, ...rest }: Props) {
