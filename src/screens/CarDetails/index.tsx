@@ -3,8 +3,7 @@ import { StatusBar } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
-import { StackProps } from '../../routes/Models';
-import { CarDTO } from '../../dtos/CarDTO';
+import { StackProps, RouteParams } from '../../routes/Models';
 
 import {
   Container,
@@ -28,17 +27,13 @@ import { ImageSlider } from '../../components/ImageSlider';
 import { Accessory } from '../../components/Accessory';
 import { Button } from '../../components/Button';
 
-interface Params {
-  car: CarDTO;
-}
-
 export function CarDetails() {
   const navigation = useNavigation<StackProps>();
   const route = useRoute();
-  const { car } = route.params as Params;
+  const { car } = route.params as RouteParams;
 
   function handleConfirmRental() {
-    navigation.navigate('Scheduling');
+    navigation.navigate('Scheduling', { car });
   }
 
   return (
