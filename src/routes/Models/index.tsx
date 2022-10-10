@@ -4,6 +4,7 @@ import { CarDTO } from '../../dtos/CarDTO';
 
 export interface RouteParams {
   car: CarDTO;
+  dates: string[];
 }
 
 export type NavigationStackProps = {
