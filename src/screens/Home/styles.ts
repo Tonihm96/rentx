@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import { FlatList, FlatListProps } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { RectButton } from 'react-native-gesture-handler';
 
 import { CarDTO } from '../../dtos/CarDTO';
 
@@ -33,9 +34,7 @@ export const TotalCars = styled.Text`
   font-family: ${({ theme }) => theme.fonts.primary_400};
 `;
 
-export const CarList = styled(
-  FlatList as new (props: FlatListProps<CarDTO>) => FlatList<CarDTO>
-).attrs({
+export const CarList = styled(FlatList as new (props: FlatListProps<CarDTO>) => FlatList<CarDTO>).attrs({
   contentContainerStyle: {
     padding: 24
   },
@@ -55,4 +54,20 @@ export const PlaceholderScrollContainer = styled.ScrollView.attrs({
 })`
   color: ${({ theme }) => theme.colors.text};
   background-color: ${({ theme }) => theme.colors.background_primary};
+`;
+
+export const MySchedules = styled(RectButton)`
+  background-color: ${({ theme }) => theme.colors.main};
+
+  position: absolute;
+  bottom: 13px;
+  right: 22px;
+
+  width: 60px;
+  height: 60px;
+
+  border-radius: 30px;
+
+  justify-content: center;
+  align-items: center;
 `;

@@ -13,6 +13,7 @@ export type NavigationStackProps = {
   Scheduling: { car: CarDTO };
   SchedulingDetails: { car: CarDTO; dates: string[] };
   SchedulingComplete: undefined;
+  MySchedules: undefined;
 };
 
 export type StackProps = NativeStackNavigationProp<NavigationStackProps>;
