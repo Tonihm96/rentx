@@ -49,7 +49,9 @@ interface RentalPeriod {
 }
 
 export function SchedulingDetails() {
-  const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>({} as RentalPeriod);
+  const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>(
+    {} as RentalPeriod
+  );
 
   const navigation = useNavigation<StackProps>();
   const theme = useTheme();
@@ -60,7 +62,20 @@ export function SchedulingDetails() {
 
   async function handleConfirmRental() {
     const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
-    const unavailable_dates = [...schedulesByCar.data.unavailable_dates, ...dates];
+    const unavailable_dates = [
+      ...schedulesByCar.data.unavailable_dates,
+      ...dates
+    ];
+
+    await api.post(`schedules_byuser`, {
+      user_id: 1,
+      car,
+      start_date: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
+      end_date: format(
+        getPlatformDate(new Date(dates[dates.length - 1])),
+        'dd/MM/yyyy'
+      )
+    });
 
     await api
       .put(`/schedules_bycars/${car.id}`, {
@@ -74,13 +89,20 @@ export function SchedulingDetails() {
   useEffect(() => {
     setRentalPeriod({
       start: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
-      end: format(getPlatformDate(new Date(dates[dates.length - 1])), 'dd/MM/yyyy')
+      end: format(
+        getPlatformDate(new Date(dates[dates.length - 1])),
+        'dd/MM/yyyy'
+      )
     });
   }, []);
 
   return (
     <Container>
-      <StatusBar barStyle='dark-content' backgroundColor='transparent' translucent />
+      <StatusBar
+        barStyle='dark-content'
+        backgroundColor='transparent'
+        translucent
+      />
       <Header>
         <BackButton onPress={() => navigation.goBack()} />
       </Header>
@@ -104,13 +126,21 @@ export function SchedulingDetails() {
 
         <Accessories>
           {car.accessories.map(accessory => (
-            <Accessory key={accessory.type} name={accessory.name} icon={getAccessoryIcon(accessory.type)} />
+            <Accessory
+              key={accessory.type}
+              name={accessory.name}
+              icon={getAccessoryIcon(accessory.type)}
+            />
           ))}
         </Accessories>
 
         <RentalPeriod>
           <CalendarIcon>
-            <Feather name='calendar' size={RFValue(20)} color={theme.colors.shape} />
+            <Feather
+              name='calendar'
+              size={RFValue(20)}
+              color={theme.colors.shape}
+            />
           </CalendarIcon>
 
           <DateInfo>
@@ -118,7 +148,11 @@ export function SchedulingDetails() {
             <DateValue>{rentalPeriod.start}</DateValue>
           </DateInfo>
 
-          <Feather name='chevron-right' size={RFValue(10)} color={theme.colors.text_detail} />
+          <Feather
+            name='chevron-right'
+            size={RFValue(10)}
+            color={theme.colors.text_detail}
+          />
 
           <DateInfo>
             <DateTitle>DE</DateTitle>
@@ -138,7 +172,11 @@ export function SchedulingDetails() {
       </Content>
 
       <Footer>
-        <Button title='Alugar agora' color={theme.colors.success} onPress={handleConfirmRental} />
+        <Button
+          title='Alugar agora'
+          color={theme.colors.success}
+          onPress={handleConfirmRental}
+        />
       </Footer>
     </Container>
   );
