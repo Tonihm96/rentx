@@ -9,7 +9,15 @@ import { CarDTO } from '../../dtos/CarDTO';
 import { StackProps } from '../../routes/Models';
 import { api } from '../../services/api';
 
-import { Container, Header, HeaderContent, TotalCars, CarList, PlaceholderScrollContainer, MySchedules } from './styles';
+import {
+  Container,
+  Header,
+  HeaderContent,
+  TotalCars,
+  CarList,
+  PlaceholderScrollContainer,
+  MySchedules
+} from './styles';
 
 import Logo from '../../assets/logo.svg';
 import { Car } from '../../components/Car';
@@ -55,11 +63,15 @@ export function Home() {
 
   return (
     <Container>
-      <StatusBar barStyle='light-content' backgroundColor='transparent' translucent />
+      <StatusBar
+        barStyle='light-content'
+        backgroundColor='transparent'
+        translucent
+      />
       <Header>
         <HeaderContent>
           <Logo width={108} height={12} />
-          <TotalCars>Total de 12 Carros</TotalCars>
+          <TotalCars>Total de {cars.length} Carros</TotalCars>
         </HeaderContent>
       </Header>
       {loading ? (
@@ -69,11 +81,21 @@ export function Home() {
           ))}
         </PlaceholderScrollContainer>
       ) : (
-        <CarList keyExtractor={keyExtractor} data={cars} renderItem={renderItem} onRefresh={fetchCars} refreshing={loading} />
+        <CarList
+          keyExtractor={keyExtractor}
+          data={cars}
+          renderItem={renderItem}
+          onRefresh={fetchCars}
+          refreshing={loading}
+        />
       )}
 
       <MySchedules onPress={handleOpenMySchedules}>
-        <Ionicons name='ios-car-sport' size={32} color={theme.colors.background_secondary} />
+        <Ionicons
+          name='ios-car-sport'
+          size={32}
+          color={theme.colors.background_secondary}
+        />
       </MySchedules>
     </Container>
   );

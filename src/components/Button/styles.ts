@@ -1,14 +1,22 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
+import { ActivityIndicatorProps } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
 
 interface ButtonProps extends RectButtonProps {
   color?: string;
+  enabled?: boolean;
+  loading?: boolean;
 }
 
 export const Container = styled(RectButton)<ButtonProps>`
   background-color: ${({ color, theme }) =>
     color ? color : theme.colors.main};
+  ${({ enabled, loading }) =>
+    (!enabled || loading) &&
+    css`
+      opacity: 0.5;
+    `}
 
   width: 100%;
 
@@ -22,3 +30,10 @@ export const Title = styled.Text`
   font-size: ${RFValue(15)}px;
   color: ${({ theme }) => theme.colors.background_secondary};
 `;
+
+export const LoadingIndicator = styled.ActivityIndicator.attrs(
+  ({ theme }): ActivityIndicatorProps => ({
+    color: theme.colors.background_secondary,
+    size: RFValue(22)
+  })
+)``;

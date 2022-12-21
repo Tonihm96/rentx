@@ -82,7 +82,7 @@ export function MyCars() {
           <Quantity>{cars.length}</Quantity>
         </Appointments>
 
-        {1 ? (
+        {loading ? (
           <PlaceholderScrollContainer>
             {Array.from(Array(6).keys()).map(index => (
               <CarWrapper>
