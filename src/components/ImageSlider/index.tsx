@@ -40,6 +40,7 @@ export function ImageSlider({ imagesUrl }: Props) {
         horizontal
         showsHorizontalScrollIndicator={false}
         onViewableItemsChanged={indexChanged.current}
+        pagingEnabled
       />
     </Container>
   );
