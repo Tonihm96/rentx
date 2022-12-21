@@ -52,9 +52,13 @@ export const DateTitle = styled.Text`
 `;
 
 export const DateValueContainer = styled.View<DateValueContainerProps>`
-  border-bottom-width: 1px;
+  ${({ selected }) =>
+    !selected &&
+    css`
+      border-bottom-width: 1px;
+    `};
 
-  padding-bottom: 5px;
+  padding-bottom: 4px;
   border-bottom-color: ${({ selected, theme }) =>
     !selected ? theme.colors.text : css`transparent`};
 `;
