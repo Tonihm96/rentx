@@ -1,6 +1,10 @@
 import React from 'react';
-import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack';
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationOptions
+} from '@react-navigation/native-stack';
 
+import { Splash } from '../screens/Splash';
 import { Home } from '../screens/Home';
 import { CarDetails } from '../screens/CarDetails';
 import { Scheduling } from '../screens/Scheduling';
@@ -10,7 +14,8 @@ import { MyCars } from '../screens/MyCars';
 
 import { NavigationStackProps } from './Models';
 
-const { Navigator, Screen } = createNativeStackNavigator<NavigationStackProps>();
+const { Navigator, Screen } =
+  createNativeStackNavigator<NavigationStackProps>();
 
 const screenOptions: NativeStackNavigationOptions = {
   headerShown: false
@@ -18,7 +23,8 @@ const screenOptions: NativeStackNavigationOptions = {
 
 export function StackRoutes() {
   return (
-    <Navigator screenOptions={screenOptions}>
+    <Navigator screenOptions={screenOptions} initialRouteName='Splash'>
+      <Screen name='Splash' component={Splash} />
       <Screen name='Home' component={Home} />
       <Screen name='CarDetails' component={CarDetails} />
       <Screen name='Scheduling' component={Scheduling} />

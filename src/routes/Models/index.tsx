@@ -8,6 +8,7 @@ export interface RouteParams {
 }
 
 export type NavigationStackProps = {
+  Splash: undefined;
   Home: undefined;
   CarDetails: { car: CarDTO };
   Scheduling: { car: CarDTO };

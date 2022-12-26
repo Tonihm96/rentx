@@ -1,8 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
+import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder';
+import { LinearGradient } from 'expo-linear-gradient';
 import { FlatList, StatusBar } from 'react-native';
 import { useTheme } from 'styled-components';
 import { AntDesign } from '@expo/vector-icons';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 import { StackProps } from '../../routes/Models';
 
@@ -12,6 +15,8 @@ import { api } from '../../services/api';
 import { BackButton } from '../../components/BackButton';
 import { Car } from '../../components/Car';
 import { CarPlaceHolder } from '../../components/CarPlaceHolder';
+
+const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient);
 
 import {
   Container,
@@ -44,18 +49,19 @@ export function MyCars() {
   const theme = useTheme();
   const navigation = useNavigation<StackProps>();
 
-  useEffect(() => {
-    async function fetchCars() {
-      try {
-        const response = await api.get('/schedules_byuser?user_id=1');
-        setCars(response.data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
+  async function fetchCars() {
+    setLoading(true);
+    try {
+      const response = await api.get('/schedules_byuser?user_id=1');
+      setCars(response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
+  }
 
+  useEffect(() => {
     fetchCars();
   }, []);
 
@@ -79,7 +85,15 @@ export function MyCars() {
       <Content>
         <Appointments>
           <AppointmentsTitle>Agendamentos feitos</AppointmentsTitle>
-          <Quantity>{cars.length}</Quantity>
+          {loading ? (
+            <ShimmerPlaceholder
+              height={RFValue(14)}
+              width={RFValue(15)}
+              style={{ marginVertical: 3 }}
+            />
+          ) : (
+            <Quantity>{cars.length}</Quantity>
+          )}
         </Appointments>
 
         {loading ? (
@@ -88,16 +102,28 @@ export function MyCars() {
               <CarWrapper>
                 <CarPlaceHolder key={index} />
                 <CarFooter>
-                  <CarFooterTitle>Período</CarFooterTitle>
+                  <ShimmerPlaceholder
+                    height={RFValue(10)}
+                    width={RFValue(40)}
+                    style={{ marginVertical: 3 }}
+                  />
                   <CarFooterPeriod>
-                    <CarFooterDate>-</CarFooterDate>
+                    <ShimmerPlaceholder
+                      height={RFValue(14)}
+                      width={RFValue(68)}
+                      style={{ marginVertical: 3 }}
+                    />
                     <AntDesign
                       name='arrowright'
                       size={20}
-                      color={theme.colors.title}
+                      color={loading ? 'transparent' : theme.colors.title}
                       style={{ marginHorizontal: 10 }}
                     />
-                    <CarFooterDate>-</CarFooterDate>
+                    <ShimmerPlaceholder
+                      height={RFValue(14)}
+                      width={RFValue(68)}
+                      style={{ marginVertical: 3 }}
+                    />
                   </CarFooterPeriod>
                 </CarFooter>
               </CarWrapper>
@@ -108,7 +134,7 @@ export function MyCars() {
             data={cars}
             keyExtractor={item => item.id}
             renderItem={({ item }) => (
-              <CarWrapper>
+              <CarWrapper key={`${item.id}-${item.start_date}`}>
                 <Car data={item.car} />
                 <CarFooter>
                   <CarFooterTitle>Período</CarFooterTitle>
@@ -125,6 +151,8 @@ export function MyCars() {
                 </CarFooter>
               </CarWrapper>
             )}
+            onRefresh={fetchCars}
+            refreshing={loading}
             showsVerticalScrollIndicator={false}
           />
         )}
