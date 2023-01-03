@@ -99,7 +99,7 @@ export function MyCars() {
         {loading ? (
           <PlaceholderScrollContainer>
             {Array.from(Array(6).keys()).map(index => (
-              <CarWrapper>
+              <CarWrapper key={index}>
                 <CarPlaceHolder key={index} />
                 <CarFooter>
                   <ShimmerPlaceholder

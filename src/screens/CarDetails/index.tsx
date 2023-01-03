@@ -9,7 +9,6 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue
 } from 'react-native-reanimated';
-import { useTheme } from 'styled-components/native';
 
 import theme from '../../styles/theme';
 
@@ -37,7 +36,7 @@ import {
   Footer
 } from './styles';
 
-const SCROLL_EVENT_FIRE_RATE = 16; //1000 / 60
+const SCROLL_EVENT_FIRE_RATE = 16; //1000ms / 60fps
 
 export function CarDetails() {
   const navigation = useNavigation<StackProps>();
@@ -113,15 +112,7 @@ export function CarDetails() {
             ))}
           </Accessories>
 
-          <About>
-            {car.about}
-            {car.about}
-            {car.about}
-            {car.about}
-            {car.about}
-            {car.about}
-            {car.about}
-          </About>
+          <About>{car.about}</About>
         </CarInfoContainer>
       </Animated.ScrollView>
 
