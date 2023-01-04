@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar, ListRenderItemInfo, StyleSheet } from 'react-native';
+import {
+  StatusBar,
+  ListRenderItemInfo,
+  StyleSheet,
+  BackHandler
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, {
   useSharedValue,
@@ -96,6 +101,10 @@ export function Home() {
 
   useEffect(() => {
     fetchCars();
+  }, []);
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => true);
   }, []);
 
   return (
