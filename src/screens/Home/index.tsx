@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar, ListRenderItemInfo } from 'react-native';
+import { StatusBar, ListRenderItemInfo, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  useAnimatedGestureHandler,
+  withSpring
+} from 'react-native-reanimated';
+import { RectButton, PanGestureHandler } from 'react-native-gesture-handler';
 
 import { useTheme } from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
@@ -23,9 +30,39 @@ import Logo from '../../assets/logo.svg';
 import { Car } from '../../components/Car';
 import { CarPlaceHolder } from '../../components/CarPlaceHolder';
 
+const AnimatedButton = Animated.createAnimatedComponent(RectButton);
+
 export function Home() {
   const [cars, setCars] = useState<CarDTO[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const positionX = useSharedValue(0);
+  const positionY = useSharedValue(0);
+  const mySchedulesButtonStyle = useAnimatedStyle(() => ({
+    transform: [
+      { translateX: positionX.value },
+      { translateY: positionY.value }
+    ]
+  }));
+  const onGestureEvent = useAnimatedGestureHandler({
+    onStart(_, context: { positionX: number; positionY: number }) {
+      context.positionX = positionX.value;
+      context.positionY = positionY.value;
+    },
+    onActive(event, context: { positionX: number; positionY: number }) {
+      positionX.value = context.positionX + event.translationX;
+      positionY.value = context.positionY + event.translationY;
+    },
+    onEnd() {
+      positionX.value = withSpring(0);
+      positionY.value = withSpring(0);
+    },
+    onCancel() {
+      positionX.value = withSpring(0);
+      positionY.value = withSpring(0);
+    }
+  });
+
   const navigation = useNavigation<StackProps>();
   const theme = useTheme();
 
@@ -90,13 +127,42 @@ export function Home() {
         />
       )}
 
-      <MySchedules onPress={handleOpenMySchedules}>
+      <PanGestureHandler onGestureEvent={onGestureEvent}>
+        <Animated.View
+          style={[
+            { position: 'absolute', bottom: 13, right: 22 },
+            mySchedulesButtonStyle
+          ]}
+        >
+          <AnimatedButton
+            style={[styles.button, { backgroundColor: theme.colors.main }]}
+            onPress={handleOpenMySchedules}
+          >
+            <Ionicons
+              name='ios-car-sport'
+              size={32}
+              color={theme.colors.background_secondary}
+            />
+          </AnimatedButton>
+        </Animated.View>
+      </PanGestureHandler>
+      {/* <MySchedules onPress={handleOpenMySchedules}>
         <Ionicons
           name='ios-car-sport'
           size={32}
           color={theme.colors.background_secondary}
         />
-      </MySchedules>
+      </MySchedules> */}
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  button: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+});
