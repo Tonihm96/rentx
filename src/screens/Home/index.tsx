@@ -117,7 +117,11 @@ export function Home() {
       <Header>
         <HeaderContent>
           <Logo width={108} height={12} />
-          <TotalCars>Total de {cars.length} Carros</TotalCars>
+          {loading ? (
+            <TotalCars></TotalCars>
+          ) : (
+            <TotalCars>Total de {cars.length} Carros</TotalCars>
+          )}
         </HeaderContent>
       </Header>
       {loading ? (
