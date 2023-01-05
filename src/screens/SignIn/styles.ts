@@ -6,8 +6,6 @@ export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.background_primary};
 
   padding: 0 24px;
-
-  flex: 1;
 `;
 
 export const Header = styled.View`
