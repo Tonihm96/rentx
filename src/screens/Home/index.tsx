@@ -101,10 +101,11 @@ export function Home() {
 
   useEffect(() => {
     fetchCars();
-  }, []);
 
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', () => true);
+    // prevent user from leaving the screen
+    navigation.addListener('beforeRemove', e => {
+      e.preventDefault();
+    });
   }, []);
 
   return (
@@ -117,11 +118,9 @@ export function Home() {
       <Header>
         <HeaderContent>
           <Logo width={108} height={12} />
-          {loading ? (
-            <TotalCars></TotalCars>
-          ) : (
-            <TotalCars>Total de {cars.length} Carros</TotalCars>
-          )}
+          <TotalCars>
+            {!loading ? `Total de ${cars.length} Carros` : ` `}
+          </TotalCars>
         </HeaderContent>
       </Header>
       {loading ? (
