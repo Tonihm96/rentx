@@ -8,6 +8,7 @@ interface Props {
   onPress?(): void;
   enabled?: boolean;
   loading?: boolean;
+  light?: boolean;
 }
 
 export function Button({
@@ -16,6 +17,7 @@ export function Button({
   onPress,
   enabled = true,
   loading = false,
+  light = false,
   ...rest
 }: Props) {
   return (
@@ -26,7 +28,7 @@ export function Button({
       loading={loading}
       {...rest}
     >
-      {loading ? <LoadingIndicator /> : <Title>{title}</Title>}
+      {loading ? <LoadingIndicator /> : <Title light={light}>{title}</Title>}
     </Container>
   );
 }
