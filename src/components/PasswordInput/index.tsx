@@ -12,22 +12,45 @@ import {
 
 interface Props extends TextInputProps {
   iconName: React.ComponentProps<typeof Icon>['name'];
+  value?: string;
 }
 
-export function PasswordInput({ iconName, ...rest }: Props) {
+export function PasswordInput({ iconName, value, ...rest }: Props) {
   const theme = useTheme();
   const [isTextVisible, setIsTextVisible] = useState(true);
+  const [isFocused, setIsFocused] = useState(false);
+  const [isFilled, setIsFilled] = useState(false);
+
+  function handleInputFocus() {
+    setIsFocused(true);
+  }
+
+  function handleInputBlur() {
+    setIsFocused(false);
+    setIsFilled(!!value);
+  }
 
   function onVisibilityToggle() {
     setIsTextVisible(oldState => !oldState);
   }
 
   return (
-    <Container>
+    <Container isFocused={isFocused}>
       <IconContainer>
-        <Icon name={iconName} size={24} color={theme.colors.text_detail} />
+        <Icon
+          name={iconName}
+          size={24}
+          color={
+            isFilled || isFocused ? theme.colors.main : theme.colors.text_detail
+          }
+        />
       </IconContainer>
-      <TextInput secureTextEntry={isTextVisible} {...rest} />
+      <TextInput
+        secureTextEntry={isTextVisible}
+        onFocus={handleInputFocus}
+        onBlur={handleInputBlur}
+        {...rest}
+      />
       <IconContainer>
         <ToggleVisibilityButton onPress={onVisibilityToggle}>
           <Icon
