@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import {
   StatusBar,
+  ScrollView,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard
+  Alert
 } from 'react-native';
 import { useTheme } from 'styled-components/native';
+import * as Yup from 'yup';
 
 import { Input } from '../../components/Input';
 import { PasswordInput } from '../../components/PasswordInput';
@@ -18,13 +19,33 @@ export function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  function handleKeyboardBlur() {
-    Keyboard.dismiss();
+  async function handleSignIn() {
+    try {
+      const schema = Yup.object().shape({
+        password: Yup.string().required('A senha é obrigatória'),
+        email: Yup.string()
+          .required('O e-mail é obrigatório')
+          .email('Digite um e-mail válido')
+      });
+
+      await schema.validate({ email, password });
+
+      // Login here
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        Alert.alert('Ops', error.message);
+      } else {
+        Alert.alert(
+          'Erro ao autenticar',
+          'Verifique se as credencias são válidas'
+        );
+      }
+    }
   }
 
   return (
-    <KeyboardAvoidingView behavior='position'>
-      <TouchableWithoutFeedback onPress={handleKeyboardBlur}>
+    <ScrollView scrollEnabled={false}>
+      <KeyboardAvoidingView behavior='position'>
         <Container>
           <StatusBar
             barStyle='dark-content'
@@ -59,7 +80,7 @@ export function SignIn() {
           <Footer>
             <Button
               title='Login'
-              onPress={() => null}
+              onPress={handleSignIn}
               enabled={true}
               loading={false}
             />
@@ -73,7 +94,7 @@ export function SignIn() {
             />
           </Footer>
         </Container>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 }
