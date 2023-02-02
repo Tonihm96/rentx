@@ -1,12 +1,11 @@
 import React from 'react';
+import { RectButtonProperties } from 'react-native-gesture-handler';
 
 import { Container, Title, LoadingIndicator } from './styles';
 
-interface Props {
+interface Props extends RectButtonProperties {
   title: string;
   color?: string;
-  onPress?(): void;
-  enabled?: boolean;
   loading?: boolean;
   light?: boolean;
 }

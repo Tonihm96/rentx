@@ -3,7 +3,7 @@ import { ActivityIndicatorProps } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
 
-interface ButtonProps extends RectButtonProps {
+interface ButtonProps {
   color?: string;
   enabled?: boolean;
   loading?: boolean;
