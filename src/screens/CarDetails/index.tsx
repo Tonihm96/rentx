@@ -1,7 +1,7 @@
 import React from 'react';
 import { StatusBar, StyleSheet } from 'react-native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import Animated, {
   Extrapolation,
   interpolate,
@@ -13,7 +13,7 @@ import Animated, {
 import theme from '../../styles/theme';
 
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
-import { StackProps, RouteParams } from '../../routes/Models';
+import { StackProps, NavigationStackParamList } from '../../routes/Models';
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
 import { Accessory } from '../../components/Accessory';
@@ -36,12 +36,16 @@ import {
   Footer
 } from './styles';
 
+type CarDetailsScreenRouteProp = RouteProp<
+  NavigationStackParamList,
+  'CarDetails'
+>;
+
 const SCROLL_EVENT_FIRE_RATE = 16; //1000ms / 60fps
 
 export function CarDetails() {
   const navigation = useNavigation<StackProps>();
-  const route = useRoute();
-  const { car } = route.params as RouteParams;
+  const route = useRoute<CarDetailsScreenRouteProp>();
 
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler(event => {
@@ -62,7 +66,7 @@ export function CarDetails() {
   }));
 
   function handleConfirmRental() {
-    navigation.navigate('Scheduling', { car });
+    navigation.navigate('Scheduling', { car: route.params.car });
   }
 
   return (
@@ -86,24 +90,24 @@ export function CarDetails() {
         </Header>
 
         <CarImages>
-          <ImageSlider imagesUrl={car.photos} />
+          <ImageSlider imagesUrl={route.params.car.photos} />
         </CarImages>
 
         <CarInfoContainer>
           <Details>
             <Description>
-              <Brand>{car.brand}</Brand>
-              <Name>{car.name}</Name>
+              <Brand>{route.params.car.brand}</Brand>
+              <Name>{route.params.car.name}</Name>
             </Description>
 
             <Rent>
-              <Period>{car.rent.period}</Period>
-              <Price>R$ ${car.rent.price}</Price>
+              <Period>{route.params.car.rent.period}</Period>
+              <Price>R$ ${route.params.car.rent.price}</Price>
             </Rent>
           </Details>
 
           <Accessories>
-            {car.accessories.map(item => (
+            {route.params.car.accessories.map(item => (
               <Accessory
                 key={item.type}
                 name={item.name}
@@ -112,7 +116,7 @@ export function CarDetails() {
             ))}
           </Accessories>
 
-          <About>{car.about}</About>
+          <About>{route.params.car.about}</About>
         </CarInfoContainer>
       </Animated.ScrollView>
 
