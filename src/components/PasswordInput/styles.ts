@@ -11,6 +11,8 @@ export const Container = styled.View<ContainerProps>`
   border-bottom-color: ${({ theme, isFocused }) =>
     isFocused ? theme.colors.main : 'transparent'};
 
+  margin-bottom: 8px;
+
   flex-direction: row;
 `;
 
