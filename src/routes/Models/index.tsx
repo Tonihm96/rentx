@@ -2,16 +2,17 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { CarDTO } from '../../dtos/CarDTO';
 
-export interface RouteParams {
-  car: CarDTO;
-  dates: string[];
-}
-
-export type NavigationStackProps = {
+export type NavigationStackParamList = {
   Splash: undefined;
   SignIn: undefined;
   SignUpFirstStep: undefined;
-  SignUpSecondStep: undefined;
+  SignUpSecondStep: {
+    user: {
+      name: string;
+      email: string;
+      driverLicense: string;
+    };
+  };
   Home: undefined;
   CarDetails: { car: CarDTO };
   Scheduling: { car: CarDTO };
@@ -20,4 +21,4 @@ export type NavigationStackProps = {
   MySchedules: undefined;
 };
 
-export type StackProps = NativeStackNavigationProp<NavigationStackProps>;
+export type StackProps = NativeStackNavigationProp<NavigationStackParamList>;
