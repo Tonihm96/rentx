@@ -13,8 +13,10 @@ import { PasswordInput } from '../../components/PasswordInput';
 import { Button } from '../../components/Button';
 
 import { Container, Header, Title, Subtitle, Form, Footer } from './styles';
+import { useNavigation } from '@react-navigation/native';
 
 export function SignIn() {
+  const navigation = useNavigation();
   const theme = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -41,6 +43,10 @@ export function SignIn() {
         );
       }
     }
+  }
+
+  function handleSignUp() {
+    navigation.navigate('SignUpFirstStep');
   }
 
   return (
@@ -86,7 +92,7 @@ export function SignIn() {
             />
             <Button
               title='Criar conta gratuita'
-              onPress={() => null}
+              onPress={handleSignUp}
               enabled={true}
               loading={false}
               light
