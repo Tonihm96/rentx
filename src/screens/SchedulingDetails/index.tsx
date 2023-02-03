@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar, Alert } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { useTheme } from 'styled-components';
 import { format } from 'date-fns';
 
-import { RouteParams, StackProps } from '../../routes/Models';
+import { NavigationStackParamList, StackProps } from '../../routes/Models';
 import { api } from '../../services/api';
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
 import { getPlatformDate } from '../../utils/getPlatformDate';
@@ -48,6 +48,11 @@ interface RentalPeriod {
   end: string;
 }
 
+type SchedulingDetailsScreenRouteProp = RouteProp<
+  NavigationStackParamList,
+  'SchedulingDetails'
+>;
+
 export function SchedulingDetails() {
   const [loading, setLoading] = useState(false);
   const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>(
@@ -56,32 +61,40 @@ export function SchedulingDetails() {
 
   const navigation = useNavigation<StackProps>();
   const theme = useTheme();
-  const route = useRoute();
-  const { car, dates } = route.params as RouteParams;
+  const route = useRoute<SchedulingDetailsScreenRouteProp>();
 
-  const rentTotal = Number(dates.length * car.rent.price);
+  const rentTotal = Number(
+    route.params.dates.length * route.params.car.rent.price
+  );
 
   async function handleConfirmRental() {
     setLoading(true);
-    const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
+    const schedulesByCar = await api.get(
+      `/schedules_bycars/${route.params.car.id}`
+    );
     const unavailable_dates = [
       ...schedulesByCar.data.unavailable_dates,
-      ...dates
+      ...route.params.dates
     ];
 
     await api.post(`schedules_byuser`, {
       user_id: 1,
-      car,
-      start_date: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
+      car: route.params.car,
+      start_date: format(
+        getPlatformDate(new Date(route.params.dates[0])),
+        'dd/MM/yyyy'
+      ),
       end_date: format(
-        getPlatformDate(new Date(dates[dates.length - 1])),
+        getPlatformDate(
+          new Date(route.params.dates[route.params.dates.length - 1])
+        ),
         'dd/MM/yyyy'
       )
     });
 
     await api
-      .put(`/schedules_bycars/${car.id}`, {
-        id: car.id,
+      .put(`/schedules_bycars/${route.params.car.id}`, {
+        id: route.params.car.id,
         unavailable_dates
       })
       .then(() => navigation.navigate('SchedulingComplete'))
@@ -93,9 +106,14 @@ export function SchedulingDetails() {
 
   useEffect(() => {
     setRentalPeriod({
-      start: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
+      start: format(
+        getPlatformDate(new Date(route.params.dates[0])),
+        'dd/MM/yyyy'
+      ),
       end: format(
-        getPlatformDate(new Date(dates[dates.length - 1])),
+        getPlatformDate(
+          new Date(route.params.dates[route.params.dates.length - 1])
+        ),
         'dd/MM/yyyy'
       )
     });
@@ -113,24 +131,24 @@ export function SchedulingDetails() {
       </Header>
 
       <CarImages>
-        <ImageSlider imagesUrl={car.photos} />
+        <ImageSlider imagesUrl={route.params.car.photos} />
       </CarImages>
 
       <Content>
         <Details>
           <Description>
-            <Brand>{car.brand}</Brand>
-            <Name>{car.name}</Name>
+            <Brand>{route.params.car.brand}</Brand>
+            <Name>{route.params.car.name}</Name>
           </Description>
 
           <Rent>
-            <Period>{car.rent.period}</Period>
-            <Price>R$ {car.rent.price}</Price>
+            <Period>{route.params.car.rent.period}</Period>
+            <Price>R$ {route.params.car.rent.price}</Price>
           </Rent>
         </Details>
 
         <Accessories>
-          {car.accessories.map(accessory => (
+          {route.params.car.accessories.map(accessory => (
             <Accessory
               key={accessory.type}
               name={accessory.name}
@@ -169,7 +187,8 @@ export function SchedulingDetails() {
           <RentalPriceLabel>TOTAL</RentalPriceLabel>
           <RentalPriceDetails>
             <RentalPriceQuota>
-              R$ {car.rent.price} x{dates.length} diárias
+              R$ {route.params.car.rent.price} x{route.params.dates.length}{' '}
+              diárias
             </RentalPriceQuota>
             <RentalPriceTotal>R$ {rentTotal}</RentalPriceTotal>
           </RentalPriceDetails>
