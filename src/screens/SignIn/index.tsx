@@ -8,6 +8,7 @@ import {
 import { useTheme } from 'styled-components/native';
 import * as Yup from 'yup';
 
+import { StackProps } from '../../routes/Models';
 import { Input } from '../../components/Input';
 import { PasswordInput } from '../../components/PasswordInput';
 import { Button } from '../../components/Button';
@@ -16,7 +17,7 @@ import { Container, Header, Title, Subtitle, Form, Footer } from './styles';
 import { useNavigation } from '@react-navigation/native';
 
 export function SignIn() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackProps>();
   const theme = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

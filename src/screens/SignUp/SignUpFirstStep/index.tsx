@@ -2,6 +2,7 @@ import React from 'react';
 import { KeyboardAvoidingView, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import { StackProps } from '../../../routes/Models';
 import { BackButton } from '../../../components/BackButton';
 import { Bullet } from '../../../components/Bullet';
 import { Input } from '../../../components/Input';
@@ -18,7 +19,7 @@ import {
 } from './styles';
 
 export function SignUpFirstStep() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackProps>();
 
   function handleNextStep() {
     navigation.navigate('SignUpSecondStep');

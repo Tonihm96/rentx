@@ -9,6 +9,9 @@ export interface RouteParams {
 
 export type NavigationStackProps = {
   Splash: undefined;
+  SignIn: undefined;
+  SignUpFirstStep: undefined;
+  SignUpSecondStep: undefined;
   Home: undefined;
   CarDetails: { car: CarDTO };
   Scheduling: { car: CarDTO };
