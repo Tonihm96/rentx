@@ -17,7 +17,11 @@ export type NavigationStackParamList = {
   CarDetails: { car: CarDTO };
   Scheduling: { car: CarDTO };
   SchedulingDetails: { car: CarDTO; dates: string[] };
-  SchedulingComplete: undefined;
+  Confirmation: {
+    title: string;
+    message: string;
+    nextScreen: keyof NavigationStackParamList;
+  };
   MySchedules: undefined;
 };
 

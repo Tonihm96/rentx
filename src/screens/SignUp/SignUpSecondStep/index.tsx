@@ -4,7 +4,7 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { useTheme } from 'styled-components/native';
 import * as Yup from 'yup';
 
-import { NavigationStackParamList } from '../../../routes/Models';
+import { NavigationStackParamList, StackProps } from '../../../routes/Models';
 import { BackButton } from '../../../components/BackButton';
 import { Bullet } from '../../../components/Bullet';
 import { PasswordInput } from '../../../components/PasswordInput';
@@ -20,16 +20,13 @@ import {
   FormTitle
 } from './styles';
 
-type SignUpSecondStepScreenRouteProp = RouteProp<
-  NavigationStackParamList,
-  'SignUpSecondStep'
->;
-
 export function SignUpSecondStep() {
   const [password, setPassword] = useState('');
   const [repeatedPassword, setRepeatedPassword] = useState('');
-  const navigation = useNavigation();
-  const route = useRoute<SignUpSecondStepScreenRouteProp>();
+  const navigation = useNavigation<StackProps>();
+  const route =
+    useRoute<RouteProp<NavigationStackParamList, 'SignUpSecondStep'>>();
+  const { user } = route.params;
   const theme = useTheme();
 
   async function handleRegister() {
@@ -47,6 +44,12 @@ export function SignUpSecondStep() {
       if (password !== repeatedPassword) {
         throw new Error('As senhas devem ser iguais');
       }
+
+      navigation.navigate('Confirmation', {
+        title: 'Conta criada!',
+        message: 'Agora é só fazer login\ne aproveitar.',
+        nextScreen: 'SignIn'
+      });
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         Alert.alert('Ops', error.message);
