@@ -6,7 +6,7 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { useTheme } from 'styled-components';
 import { format } from 'date-fns';
 
-import { NavigationStackParamList, StackProps } from '../../routes/Models';
+import { AppStackParamList, AppStackProps } from '../../routes/Models';
 import { api } from '../../services/api';
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
 import { getPlatformDate } from '../../utils/getPlatformDate';
@@ -49,7 +49,7 @@ interface RentalPeriod {
 }
 
 type SchedulingDetailsScreenRouteProp = RouteProp<
-  NavigationStackParamList,
+  AppStackParamList,
   'SchedulingDetails'
 >;
 
@@ -59,13 +59,11 @@ export function SchedulingDetails() {
     {} as RentalPeriod
   );
 
-  const navigation = useNavigation<StackProps>();
+  const navigation = useNavigation<AppStackProps>();
   const theme = useTheme();
   const route = useRoute<SchedulingDetailsScreenRouteProp>();
 
-  const rentTotal = Number(
-    route.params.dates.length * route.params.car.rent.price
-  );
+  const rentTotal = Number(route.params.dates.length * route.params.car.price);
 
   async function handleConfirmRental() {
     setLoading(true);
@@ -138,7 +136,7 @@ export function SchedulingDetails() {
       </Header>
 
       <CarImages>
-        <ImageSlider imagesUrl={route.params.car.photos} />
+        <ImageSlider images={route.params.car.photos} />
       </CarImages>
 
       <Content>
@@ -149,8 +147,8 @@ export function SchedulingDetails() {
           </Description>
 
           <Rent>
-            <Period>{route.params.car.rent.period}</Period>
-            <Price>R$ {route.params.car.rent.price}</Price>
+            <Period>{route.params.car.period}</Period>
+            <Price>R$ {route.params.car.price}</Price>
           </Rent>
         </Details>
 
@@ -194,8 +192,7 @@ export function SchedulingDetails() {
           <RentalPriceLabel>TOTAL</RentalPriceLabel>
           <RentalPriceDetails>
             <RentalPriceQuota>
-              R$ {route.params.car.rent.price} x{route.params.dates.length}{' '}
-              diárias
+              R$ {route.params.car.price} x{route.params.dates.length} diárias
             </RentalPriceQuota>
             <RentalPriceTotal>R$ {rentTotal}</RentalPriceTotal>
           </RentalPriceDetails>

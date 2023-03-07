@@ -1,21 +1,27 @@
-export interface Accessory {
-  type: string;
-  name: string;
-}
-
-export interface Rent {
-  period: string;
-  price: number;
-}
-
 export interface CarDTO {
-  id: string;
-  brand: string;
-  name: string;
   about: string;
-  rent: Rent;
-  fuel_type: string;
-  thumbnail: string;
   accessories: Accessory[];
-  photos: string[];
+  brand: string;
+  created_at: number;
+  fuel_type: string;
+  id: string;
+  name: string;
+  period: string;
+  photos: Photo[];
+  price: number;
+  thumbnail: string;
+  updated_at: number;
+}
+
+export interface Accessory {
+  car_id: string;
+  id: string;
+  name: string;
+  type: string;
+}
+
+export interface Photo {
+  car_id: string;
+  id: string;
+  photo: string;
 }

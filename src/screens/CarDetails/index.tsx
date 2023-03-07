@@ -13,7 +13,7 @@ import Animated, {
 import theme from '../../styles/theme';
 
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
-import { StackProps, NavigationStackParamList } from '../../routes/Models';
+import { AppStackProps, AppStackParamList } from '../../routes/Models';
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
 import { Accessory } from '../../components/Accessory';
@@ -36,15 +36,12 @@ import {
   Footer
 } from './styles';
 
-type CarDetailsScreenRouteProp = RouteProp<
-  NavigationStackParamList,
-  'CarDetails'
->;
+type CarDetailsScreenRouteProp = RouteProp<AppStackParamList, 'CarDetails'>;
 
 const SCROLL_EVENT_FIRE_RATE = 16; //1000ms / 60fps
 
 export function CarDetails() {
-  const navigation = useNavigation<StackProps>();
+  const navigation = useNavigation<AppStackProps>();
   const route = useRoute<CarDetailsScreenRouteProp>();
 
   const scrollY = useSharedValue(0);
@@ -90,7 +87,7 @@ export function CarDetails() {
         </Header>
 
         <CarImages>
-          <ImageSlider imagesUrl={route.params.car.photos} />
+          <ImageSlider images={route.params.car.photos} />
         </CarImages>
 
         <CarInfoContainer>
@@ -101,8 +98,8 @@ export function CarDetails() {
             </Description>
 
             <Rent>
-              <Period>{route.params.car.rent.period}</Period>
-              <Price>R$ ${route.params.car.rent.price}</Price>
+              <Period>{route.params.car.period}</Period>
+              <Price>R$ ${route.params.car.price}</Price>
             </Rent>
           </Details>
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { LogBox } from 'react-native';
 import { ThemeProvider } from 'styled-components';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import AppLoading from 'expo-app-loading';
 import {
   useFonts,
@@ -17,8 +17,9 @@ import {
 import theme from './src/styles/theme';
 
 import { Routes } from './src/routes';
+import { AppProvider } from './src/hooks';
 
-export default function App() {
+function App() {
   const [fontsLoaded] = useFonts({
     Inter_400Regular,
     Inter_500Medium,
@@ -34,10 +35,12 @@ export default function App() {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <AppProvider>
         <Routes />
-      </ThemeProvider>
-    </GestureHandlerRootView>
+      </AppProvider>
+    </ThemeProvider>
   );
 }
+
+export default gestureHandlerRootHOC(App);

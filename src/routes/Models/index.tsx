@@ -2,7 +2,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { CarDTO } from '../../dtos/CarDTO';
 
-export type NavigationStackParamList = {
+export type AuthStackParamList = {
   Splash: undefined;
   SignIn: undefined;
   SignUpFirstStep: undefined;
@@ -13,6 +13,16 @@ export type NavigationStackParamList = {
       driverLicense: string;
     };
   };
+  Confirmation: {
+    title: string;
+    message: string;
+    nextScreen: keyof AuthStackParamList;
+  };
+};
+
+export type AuthStackProps = NativeStackNavigationProp<AuthStackParamList>;
+
+export type AppStackParamList = {
   Home: undefined;
   CarDetails: { car: CarDTO };
   Scheduling: { car: CarDTO };
@@ -20,9 +30,17 @@ export type NavigationStackParamList = {
   Confirmation: {
     title: string;
     message: string;
-    nextScreen: keyof NavigationStackParamList;
+    nextScreen: keyof AppStackParamList;
   };
   MySchedules: undefined;
 };
 
-export type StackProps = NativeStackNavigationProp<NavigationStackParamList>;
+export type AppStackProps = NativeStackNavigationProp<AppStackParamList>;
+
+export type AppTabParamList = {
+  Home: undefined;
+  Profile: undefined;
+  MyCars: undefined;
+};
+
+export type AppTabProps = NativeStackNavigationProp<AppTabParamList>;

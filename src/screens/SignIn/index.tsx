@@ -6,18 +6,21 @@ import {
   Alert
 } from 'react-native';
 import { useTheme } from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native';
 import * as Yup from 'yup';
 
-import { StackProps } from '../../routes/Models';
+import { useAuth } from '../../hooks/auth';
+
+import { AppStackProps } from '../../routes/Models';
 import { Input } from '../../components/Input';
 import { PasswordInput } from '../../components/PasswordInput';
 import { Button } from '../../components/Button';
 
 import { Container, Header, Title, Subtitle, Form, Footer } from './styles';
-import { useNavigation } from '@react-navigation/native';
 
 export function SignIn() {
-  const navigation = useNavigation<StackProps>();
+  const auth = useAuth();
+  const navigation = useNavigation<AppStackProps>();
   const theme = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -33,7 +36,7 @@ export function SignIn() {
 
       await schema.validate({ email, password });
 
-      // Login here
+      auth.signIn({ email, password });
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         Alert.alert('Ops', error.message);

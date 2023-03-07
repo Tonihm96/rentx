@@ -11,7 +11,7 @@ import Animated, {
   runOnJS
 } from 'react-native-reanimated';
 
-import { StackProps } from '../../routes/Models';
+import { AppStackProps, AuthStackProps } from '../../routes/Models';
 import BrandSvg from '../../assets/brand.svg';
 import LogoSvg from '../../assets/logo.svg';
 
@@ -21,7 +21,7 @@ const ANIMATION_VALUE = 100;
 const ANIMATION_DURATION = 1500;
 
 export function Splash() {
-  const navigation = useNavigation<StackProps>();
+  const navigation = useNavigation<AppStackProps>();
   const splashAnimation = useSharedValue(0);
 
   const brandStyle = useAnimatedStyle(() => ({

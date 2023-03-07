@@ -3,7 +3,7 @@ import { Alert, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Yup from 'yup';
 
-import { StackProps } from '../../../routes/Models';
+import { AppStackProps } from '../../../routes/Models';
 import { BackButton } from '../../../components/BackButton';
 import { Bullet } from '../../../components/Bullet';
 import { Input } from '../../../components/Input';
@@ -23,7 +23,7 @@ export function SignUpFirstStep() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [driverLicense, setDriverLicense] = useState('');
-  const navigation = useNavigation<StackProps>();
+  const navigation = useNavigation<AppStackProps>();
 
   async function handleNextStep() {
     try {

@@ -2,7 +2,7 @@ import React from 'react';
 import { StatusBar, useWindowDimensions } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 
-import { StackProps, NavigationStackParamList } from '../../routes/Models';
+import { AppStackProps, AppStackParamList } from '../../routes/Models';
 
 import LogoSvg from '../../assets/logo_background_gray.svg';
 import DoneSvg from '../../assets/done.svg';
@@ -12,8 +12,8 @@ import { Container, Content, Title, Message, Footer } from './styles';
 import { ConfirmButton } from '../../components/ConfirmButton';
 
 export function Confirmation() {
-  const navigation = useNavigation<StackProps>();
-  const route = useRoute<RouteProp<NavigationStackParamList, 'Confirmation'>>();
+  const navigation = useNavigation<AppStackProps>();
+  const route = useRoute<RouteProp<AppStackParamList, 'Confirmation'>>();
   const { title, message, nextScreen } = route.params;
   const { width } = useWindowDimensions();
 

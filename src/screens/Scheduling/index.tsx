@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useTheme } from 'styled-components';
 
-import { RouteParams, StackProps } from '../../routes/Models';
+import { RouteParams, AppStackProps } from '../../routes/Models';
 
 import ArrowSvg from '../../assets/arrow.svg';
 
@@ -46,7 +46,7 @@ export function Scheduling() {
   const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>(
     {} as RentalPeriod
   );
-  const navigation = useNavigation<StackProps>();
+  const navigation = useNavigation<AppStackProps>();
   const theme = useTheme();
   const route = useRoute();
   const { car } = route.params as RouteParams;

@@ -4,7 +4,8 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { useTheme } from 'styled-components/native';
 import * as Yup from 'yup';
 
-import { NavigationStackParamList, StackProps } from '../../../routes/Models';
+import { api } from '../../../services/api';
+import { AppStackParamList, AppStackProps } from '../../../routes/Models';
 import { BackButton } from '../../../components/BackButton';
 import { Bullet } from '../../../components/Bullet';
 import { PasswordInput } from '../../../components/PasswordInput';
@@ -23,9 +24,8 @@ import {
 export function SignUpSecondStep() {
   const [password, setPassword] = useState('');
   const [repeatedPassword, setRepeatedPassword] = useState('');
-  const navigation = useNavigation<StackProps>();
-  const route =
-    useRoute<RouteProp<NavigationStackParamList, 'SignUpSecondStep'>>();
+  const navigation = useNavigation<AppStackProps>();
+  const route = useRoute<RouteProp<AppStackParamList, 'SignUpSecondStep'>>();
   const { user } = route.params;
   const theme = useTheme();
 
@@ -45,11 +45,23 @@ export function SignUpSecondStep() {
         throw new Error('As senhas devem ser iguais');
       }
 
-      navigation.navigate('Confirmation', {
-        title: 'Conta criada!',
-        message: 'Agora é só fazer login\ne aproveitar.',
-        nextScreen: 'SignIn'
-      });
+      await api
+        .post('/users', {
+          name: user.name,
+          email: user.email,
+          password,
+          driver_license: user.driverLicense
+        })
+        .then(() => {
+          navigation.navigate('Confirmation', {
+            title: 'Conta criada!',
+            message: 'Agora é só fazer login\ne aproveitar.',
+            nextScreen: 'SignIn'
+          });
+        })
+        .catch(() => {
+          Alert.alert('Ops', 'Não foi possível cadastrar');
+        });
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         Alert.alert('Ops', error.message);

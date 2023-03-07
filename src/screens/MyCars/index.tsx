@@ -7,7 +7,7 @@ import { useTheme } from 'styled-components';
 import { AntDesign } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 
-import { StackProps } from '../../routes/Models';
+import { AppStackProps } from '../../routes/Models';
 
 import { CarDTO } from '../../dtos/CarDTO';
 import { api } from '../../services/api';
@@ -47,7 +47,7 @@ export function MyCars() {
   const [cars, setCars] = useState<CarProps[]>([]);
   const [loading, setLoading] = useState(true);
   const theme = useTheme();
-  const navigation = useNavigation<StackProps>();
+  const navigation = useNavigation<AppStackProps>();
 
   async function fetchCars() {
     setLoading(true);
